@@ -31,8 +31,9 @@ class _LoginState extends State<Login> {
                         key: _loginFormKey,
                         child: Column(
                           children: [
-                            specialTextFormField('Email', _left),
-                            specialPasswordFormField('Password', _left),
+                            specialTextFormField('Email', _left, null, null),
+                            specialPasswordFormField(
+                                'Password', _left, null, null),
                             SizedBox(
                               height: 30,
                             ),

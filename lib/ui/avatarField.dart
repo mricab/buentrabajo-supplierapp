@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:supplierapp/utils/camera.dart';
 
 class AvatarFormField extends FormField<String> {

@@ -76,6 +76,8 @@ Widget specialButton(String label, VoidCallback method) {
   );
 }
 
+// Form Fields
+
 InputDecoration textFormFieldsDecoration(String hint, IconData icon) {
   return InputDecoration(
     fillColor: Colors.white12,
@@ -104,77 +106,77 @@ InputDecoration textFormFieldsDecoration(String hint, IconData icon) {
   );
 }
 
-TextFormField specialTextFormField(String hint, TextAlign align) {
+TextFormField specialTextFormField(String hint, TextAlign align,
+    String valMethod(String value), TextEditingController fieldController) {
   return TextFormField(
+    controller: fieldController,
     style: TextStyle(color: Colors.white),
     textAlign: align,
     obscureText: false,
     decoration: textFormFieldsDecoration(hint, null),
-    validator: (value) {
-      if (value.isEmpty) {
-        return 'Porfavor ingrese su correo.';
-      }
-      return null;
-    },
+    validator: valMethod,
   );
 }
 
 TextFormField specialMultiLineTextFormField(
-    String hint, TextAlign align, int min, int max) {
+    String hint,
+    TextAlign align,
+    int min,
+    int max,
+    String valMethod(String value),
+    TextEditingController fieldController) {
   return TextFormField(
+    controller: fieldController,
     minLines: min,
     maxLines: max,
+    validator: valMethod,
     style: TextStyle(color: Colors.white),
     textAlign: align,
     obscureText: false,
     decoration: textFormFieldsDecoration(hint, null),
-    validator: (value) {
-      if (value.isEmpty) {
-        return 'Porfavor ingrese su correo.';
-      }
-      return null;
-    },
   );
 }
 
-TextFormField specialPasswordFormField(String hint, TextAlign align) {
+TextFormField specialPasswordFormField(String hint, TextAlign align,
+    String valMethod(String value), TextEditingController fieldController) {
   return TextFormField(
+    controller: fieldController,
     style: TextStyle(color: Colors.white),
     textAlign: align,
     obscureText: true,
     decoration: textFormFieldsDecoration(hint, null),
-    validator: (value) {
-      if (value.isEmpty) {
-        return 'Porfavor ingrese su correo.';
-      }
-      return null;
-    },
+    validator: valMethod,
   );
 }
 
-TextFormField specialNumericFormField(String hint, TextAlign align) {
+TextFormField specialNumericFormField(String hint, TextAlign align,
+    String valMethod(String value), TextEditingController fieldController) {
   return TextFormField(
+    controller: fieldController,
     keyboardType: TextInputType.number,
     style: TextStyle(color: Colors.white),
     textAlign: align,
     obscureText: false,
     decoration: textFormFieldsDecoration(hint, null),
-    validator: (value) {
-      if (value.isEmpty) {
-        return 'Porfavor ingrese su correo.';
-      }
-      return null;
-    },
+    validator: valMethod,
   );
 }
 
-Widget specialDatePicker(String label, DateTime iDate, DateTime fDate,
-    DateTime lDate, BuildContext context) {
-  final dateController = TextEditingController();
+TextFormField specialDatePicker(
+    String label,
+    DateTime iDate,
+    DateTime fDate,
+    DateTime lDate,
+    BuildContext context,
+    String valMethod(String value),
+    TextEditingController fieldController) {
+  //final dateController = TextEditingController();
 
   return TextFormField(
+    controller: fieldController,
     readOnly: true,
-    controller: dateController,
+    //controller: dateController,
+    validator: valMethod,
     decoration: textFormFieldsDecoration(label, Icons.calendar_today_outlined),
     onTap: () async {
       var date = await showDatePicker(
@@ -182,17 +184,21 @@ Widget specialDatePicker(String label, DateTime iDate, DateTime fDate,
           initialDate: iDate,
           firstDate: fDate,
           lastDate: lDate);
-      dateController.text = date.toString().substring(0, 10);
+      //dateController.text = date.toString().substring(0, 10);
+      fieldController.text = date.toString().substring(0, 10);
     },
   );
 }
 
-Widget specialDropdown(String hint, List<String> items) {
-  final dropdownController = TextEditingController();
+DropdownButtonFormField specialDropdown(String hint, List<String> items,
+    String valMethod(String value), TextEditingController fieldController) {
+  //final dropdownController = TextEditingController();
   return DropdownButtonFormField(
+    validator: null,
     decoration: textFormFieldsDecoration(hint, null),
     onChanged: (value) {
-      dropdownController.text = value;
+      //dropdownController.text = value;
+      fieldController.text = value;
     },
     items: items.map<DropdownMenuItem<String>>((String value) {
       return DropdownMenuItem<String>(

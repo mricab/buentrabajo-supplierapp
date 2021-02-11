@@ -21,7 +21,9 @@ class _RegisterInstructionsState extends State<RegisterInstructions> {
               child: specialInkWell('Cerrar', 14, context, _loginRoute),
             )
           ]),
-          body: Center(),
+          body: Center(
+            child: Text('Instrucciones'),
+          ),
         ));
   }
 }

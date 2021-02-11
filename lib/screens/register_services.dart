@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:supplierapp/logic/register_logic.dart';
 import 'package:supplierapp/ui/specialUI.dart';
 import 'package:supplierapp/screens/register_instructions.dart';
 import 'package:supplierapp/screens/login.dart';
+import 'package:supplierapp/models/newsupplier.dart';
 
 class RegisterServices extends StatefulWidget {
   @override
@@ -16,6 +18,11 @@ class _RegisterServicesState extends State<RegisterServices> {
     final _nextRoute =
         new MaterialPageRoute(builder: (context) => RegisterInstructions());
     final _loginRoute = new MaterialPageRoute(builder: (context) => Login());
+
+    //Form Fields Controllers
+    final service = TextEditingController();
+    final description = TextEditingController();
+    final price = TextEditingController();
 
     return Container(
         decoration: specialBackground(),
@@ -44,21 +51,31 @@ class _RegisterServicesState extends State<RegisterServices> {
                         key: _regSerKey,
                         child: Column(
                           children: [
-                            specialDropdown('Tipo de Servicio*', <String>[
-                              'Mantenimiento',
-                              'Instalación',
-                              'Asesoramiento',
-                            ]),
-                            specialTextFormField(
-                                'Nombre del Servicio (Falta en BD)', _lft),
-                            specialMultiLineTextFormField(
-                                'Descripción', _lft, 3, 4),
-                            specialNumericFormField('Precio', _lft),
+                            specialDropdown(
+                                'Tipo de Servicio*',
+                                <String>[
+                                  'Mantenimiento',
+                                  'Instalación',
+                                  'Asesoramiento',
+                                ],
+                                validateServiceType,
+                                service),
+                            specialMultiLineTextFormField('Descripción', _lft,
+                                3, 4, validateDescription, description),
+                            specialNumericFormField(
+                                'Precio', _lft, validatePrice, price),
                             SizedBox(
                               height: 30,
                             ),
                             specialButton('Enviar', () {
-                              validateServices(context, _nextRoute);
+                              var supplier = new Supplier();
+                              supplier.saveService(
+                                  service.text, description.text, price.text);
+                              validateAndSend(context, _nextRoute, _regSerKey,
+                                  supplier, 'service');
+                              print(service.text);
+                              print(description.text);
+                              print(price.text);
                             }),
                           ],
                         )),
@@ -68,8 +85,4 @@ class _RegisterServicesState extends State<RegisterServices> {
           ),
         ));
   }
-}
-
-void validateServices(BuildContext context, MaterialPageRoute route) {
-  Navigator.push(context, route);
 }

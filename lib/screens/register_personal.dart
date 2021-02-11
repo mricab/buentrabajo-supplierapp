@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:supplierapp/logic/register_logic.dart';
 import 'package:supplierapp/ui/specialUI.dart';
 import 'package:supplierapp/screens/register_professional.dart';
 import 'package:supplierapp/screens/login.dart';
+import 'package:supplierapp/models/newsupplier.dart';
 
 class RegisterPersonal extends StatefulWidget {
   @override
@@ -21,6 +23,14 @@ class _RegisterPersonalState extends State<RegisterPersonal> {
     var iDate = now.subtract(new Duration(days: 10950)); //30*365=10950
     var fDate = now.subtract(new Duration(days: 32850)); //90*365=32850
     var lDate = now.subtract(new Duration(days: 6750)); //18*365=6750
+
+    //Form Fields Controllers
+    final birthdate = TextEditingController();
+    final home_address = TextEditingController();
+    final city = TextEditingController();
+    final phone = TextEditingController();
+    final id_num = TextEditingController();
+    final id_type = TextEditingController();
 
     return Container(
         decoration: specialBackground(),
@@ -49,23 +59,52 @@ class _RegisterPersonalState extends State<RegisterPersonal> {
                         key: _regPerKey,
                         child: Column(
                           children: [
-                            specialDatePicker('Fecha de Nacimiento', iDate,
-                                fDate, lDate, context),
-                            specialTextFormField(
-                                'Dirección de Domicilio', _lft),
-                            specialTextFormField('Ciudad de Residencia', _lft),
-                            specialNumericFormField('Teléfono', _lft),
-                            specialTextFormField('Doc. de Identidad', _lft),
-                            specialDropdown('Tipo Doc. de Identidad', <String>[
-                              'Carnet',
-                              'Pasaporte',
-                              'Tarj. Residencia'
-                            ]),
+                            specialDatePicker(
+                                'Fecha de Nacimiento',
+                                iDate,
+                                fDate,
+                                lDate,
+                                context,
+                                validateBirthDate,
+                                birthdate),
+                            specialTextFormField('Dirección de Domicilio', _lft,
+                                validateAddress, home_address),
+                            specialDropdown(
+                                'Ciudad de Residencia',
+                                <String>[
+                                  'La Paz',
+                                  'Cochabamba',
+                                  'Santa Cruz',
+                                ],
+                                validateCity,
+                                city),
+                            specialNumericFormField(
+                                'Teléfono', _lft, validatePhone, phone),
+                            specialTextFormField('Doc. de Identidad', _lft,
+                                validateIdNum, id_num),
+                            specialDropdown(
+                                'Tipo Doc. de Identidad',
+                                <String>[
+                                  'Carnet',
+                                  'Pasaporte',
+                                  'Tarj. Residencia'
+                                ],
+                                validateIdType,
+                                id_type),
                             SizedBox(
                               height: 30,
                             ),
                             specialButton('Siguiente', () {
-                              validatePersonal(context, _nextRoute);
+                              var supplier = new Supplier();
+                              supplier.savePersonal(
+                                  birthdate.text,
+                                  home_address.text,
+                                  city.text,
+                                  phone.text,
+                                  id_num.text,
+                                  id_type.text);
+                              validateAndSend(context, _nextRoute, _regPerKey,
+                                  supplier, 'personal');
                             }),
                           ],
                         )),
@@ -75,8 +114,4 @@ class _RegisterPersonalState extends State<RegisterPersonal> {
           ),
         ));
   }
-}
-
-void validatePersonal(BuildContext context, MaterialPageRoute route) {
-  Navigator.push(context, route);
 }

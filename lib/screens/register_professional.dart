@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:supplierapp/logic/register_logic.dart';
 import 'package:supplierapp/ui/specialUI.dart';
 import 'package:supplierapp/screens/register_services.dart';
 import 'package:supplierapp/screens/login.dart';
+import 'package:supplierapp/models/newsupplier.dart';
 
 class RegisterProfessional extends StatefulWidget {
   @override
@@ -16,6 +18,12 @@ class _RegisterProfessionalState extends State<RegisterProfessional> {
     final _nextRoute =
         new MaterialPageRoute(builder: (context) => RegisterServices());
     final _loginRoute = new MaterialPageRoute(builder: (context) => Login());
+
+    //Form Fields Controllers
+    final profession = TextEditingController();
+    final experience = TextEditingController();
+    final work_address = TextEditingController();
+    final location = TextEditingController();
 
     return Container(
         decoration: specialBackground(),
@@ -44,22 +52,36 @@ class _RegisterProfessionalState extends State<RegisterProfessional> {
                         key: _regProKey,
                         child: Column(
                           children: [
-                            specialDropdown('Profesión', <String>[
-                              'Carpintero',
-                              'Cerrajero',
-                              'Albañil',
-                              'Plomero',
-                              'Técnico de Aire Acondicionado',
-                            ]),
-                            specialMultiLineTextFormField(
-                                'Experiencia', _lft, 4, 5),
-                            specialTextFormField('Dirección Laboral', _lft),
-                            specialTextFormField('Localización*', _lft),
+                            specialDropdown(
+                                'Profesión',
+                                <String>[
+                                  'Carpintero',
+                                  'Cerrajero',
+                                  'Albañil',
+                                  'Plomero',
+                                  'Técnico de Aire Acondicionado',
+                                ],
+                                validateProfession,
+                                profession),
+                            specialMultiLineTextFormField('Experiencia', _lft,
+                                4, 5, validateExperience, experience),
+                            specialTextFormField('Dirección Laboral', _lft,
+                                validateAddress, work_address),
+                            specialTextFormField('Localización*', _lft,
+                                validateLocation, location),
                             SizedBox(
                               height: 30,
                             ),
                             specialButton('Siguiente', () {
-                              validateProfessional(context, _nextRoute);
+                              var supplier = new Supplier();
+                              supplier.saveProfessional(
+                                  profession.text,
+                                  experience.text,
+                                  work_address.text,
+                                  '123',
+                                  '123');
+                              validateAndSend(context, _nextRoute, _regProKey,
+                                  supplier, 'professional');
                             }),
                           ],
                         )),
@@ -69,8 +91,4 @@ class _RegisterProfessionalState extends State<RegisterProfessional> {
           ),
         ));
   }
-}
-
-void validateProfessional(BuildContext context, MaterialPageRoute route) {
-  Navigator.push(context, route);
 }
