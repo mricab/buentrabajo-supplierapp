@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
-class Photo {
+class PhotoManager {
   final _imgPicker = ImagePicker();
   File img;
 

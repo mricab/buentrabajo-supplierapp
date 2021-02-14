@@ -1,6 +1,6 @@
 class Supplier {
   //Datos Generales
-  String photo_path; //avatar widget
+  String photo_path;
   String name;
   String first_last_name;
   String second_last_name;
@@ -29,9 +29,9 @@ class Supplier {
   String price;
   String schedule; // ¿?
 
-  Supplier saveAccount(String photo, String name, String flname, String slname,
-      String email, String password) {
-    this.photo_path = photo;
+  Supplier saveAccount(String avatarPath, String name, String flname,
+      String slname, String email, String password) {
+    this.photo_path = avatarPath;
     this.name = name;
     this.first_last_name = flname;
     this.second_last_name = slname;

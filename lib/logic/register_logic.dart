@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:supplierapp/models/newsupplier.dart';
 import 'package:supplierapp/utils/network.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 // Flow
 void validateAndSend(BuildContext context, MaterialPageRoute route,
@@ -65,6 +64,13 @@ String validateUserEmail(String value) {
 String validateUserPassword(String value) {
   if (value.isEmpty || value.length <= 3) {
     return 'Al menos 4 caracteres.';
+  }
+  return null;
+}
+
+String validateAvatar(String value) {
+  if (value == null) {
+    return 'Ingrese una imagen.';
   }
   return null;
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supplierapp/widgets/avatarField.dart';
 
 BoxDecoration specialBackground() {
   return BoxDecoration(
@@ -206,5 +207,26 @@ DropdownButtonFormField specialDropdown(String hint, List<String> items,
         child: Text(value),
       );
     }).toList(),
+  );
+}
+
+Widget specialAvatarField(BuildContext context, String valMethod(String value),
+    TextEditingController fieldController) {
+  return AvatarFormField(
+    controller: fieldController,
+    validator: valMethod,
+    avatarRadius: 45,
+    avatarBackground: Color(0x8860e7ff),
+    context: context,
+    modalCameraLabel: Text(
+      'CAPTURAR',
+      style: TextStyle(color: Colors.lightBlue),
+    ),
+    modalGalleryLabel: Text(
+      'SELECCIONAR',
+      style: TextStyle(color: Colors.lightBlue),
+    ),
+    modalCameraIcon: Icon(Icons.camera, color: Colors.lightBlue),
+    modalGalleryIcon: Icon(Icons.photo, color: Colors.lightBlue),
   );
 }

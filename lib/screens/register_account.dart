@@ -4,6 +4,7 @@ import 'package:supplierapp/screens/register_personal.dart';
 import 'package:supplierapp/screens/login.dart';
 import 'package:supplierapp/logic/register_logic.dart';
 import 'package:supplierapp/models/newsupplier.dart';
+import 'package:supplierapp/widgets/avatarField.dart';
 
 class RegisterAccount extends StatefulWidget {
   @override
@@ -20,6 +21,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
     final _loginRoute = new MaterialPageRoute(builder: (context) => Login());
 
     //Form Fields Controllers
+    final avatar = TextEditingController();
     final name = TextEditingController();
     final first_last_name = TextEditingController();
     final second_last_name = TextEditingController();
@@ -53,7 +55,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                         key: _regAccKey,
                         child: Column(
                           children: [
-                            specialTextFormField('Avatar*', _lft, null, null),
+                            specialAvatarField(context, validateAvatar, avatar),
                             specialTextFormField(
                                 'Nombre', _lft, validatePersonName, name),
                             specialTextFormField('Primer Apellido', _lft,
@@ -70,7 +72,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                             specialButton('Siguiente', () {
                               var supplier = new Supplier();
                               supplier.saveAccount(
-                                  'photo',
+                                  avatar.text,
                                   name.text,
                                   first_last_name.text,
                                   second_last_name.text,
