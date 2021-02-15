@@ -62,8 +62,8 @@ class _RegisterServicesState extends State<RegisterServices> {
                                 service),
                             specialMultiLineTextFormField('Descripción', _lft,
                                 3, 4, validateDescription, description),
-                            specialNumericFormField(
-                                'Precio', _lft, validatePrice, price),
+                            specialAmountFormField(
+                                'Precio', _lft, validatePrice, price, 'Bs.'),
                             SizedBox(
                               height: 30,
                             ),

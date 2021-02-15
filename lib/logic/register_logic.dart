@@ -12,7 +12,7 @@ void validateAndSend(BuildContext context, MaterialPageRoute route,
       //Retornar errores
     }
   }
-  // Navigator.push(context, route);
+  //Navigator.push(context, route);
 }
 
 Future<String> externalValidation(String apiMethod, Supplier supplier) async {
@@ -104,9 +104,9 @@ String validateAddress(String value) {
   return null;
 }
 
-String validateCity(String value) {
+String validateCity(dynamic value) {
   //Dropdown
-  if (value.isEmpty) {
+  if (value == null) {
     return 'Debe seleccionar su ciudad.';
   }
   return null;
@@ -126,17 +126,17 @@ String validateIdNum(String value) {
   return null;
 }
 
-String validateIdType(String value) {
+String validateIdType(dynamic value) {
   //Dropdown
-  if (value.isEmpty) {
+  if (value == null) {
     return 'Debe indicar el tipo de su documento.';
   }
   return null;
 }
 
-String validateProfession(String value) {
+String validateProfession(dynamic value) {
   //Dropdown
-  if (value.isEmpty) {
+  if (value == null) {
     return 'Debe seleccionar una professión.';
   }
   return null;
@@ -155,9 +155,9 @@ String validateLocation(String value) {
   return null; //Localización
 }
 
-String validateServiceType(String value) {
+String validateServiceType(dynamic value) {
   //Dropdown
-  if (value.isEmpty) {
+  if (value == null) {
     return 'Debe seleccionar un tipo de servicio.';
   }
   return null;

@@ -79,7 +79,23 @@ Widget specialButton(String label, VoidCallback method) {
 
 // Form Fields
 
-InputDecoration textFormFieldsDecoration(String hint, IconData icon) {
+InputDecoration textFormFieldsDecoration(
+    String hint, IconData iconData, String textData) {
+  Icon sIcon;
+  if (iconData != null) {
+    sIcon = Icon(
+      iconData,
+      color: Colors.white70,
+    );
+  }
+  Text sText;
+  if (textData != null) {
+    sText = Text(
+      textData,
+      style: TextStyle(color: Colors.white70),
+    );
+  }
+
   return InputDecoration(
     fillColor: Colors.white12,
     filled: false,
@@ -100,10 +116,8 @@ InputDecoration textFormFieldsDecoration(String hint, IconData icon) {
     disabledBorder: UnderlineInputBorder(
         borderSide: BorderSide(
             color: Colors.grey, width: 2.0, style: BorderStyle.solid)),
-    suffixIcon: Icon(
-      icon,
-      color: Colors.white70,
-    ),
+    suffix: sText,
+    suffixIcon: sIcon,
   );
 }
 
@@ -114,7 +128,7 @@ TextFormField specialTextFormField(String hint, TextAlign align,
     style: TextStyle(color: Colors.white),
     textAlign: align,
     obscureText: false,
-    decoration: textFormFieldsDecoration(hint, null),
+    decoration: textFormFieldsDecoration(hint, null, null),
     validator: valMethod,
   );
 }
@@ -134,7 +148,7 @@ TextFormField specialMultiLineTextFormField(
     style: TextStyle(color: Colors.white),
     textAlign: align,
     obscureText: false,
-    decoration: textFormFieldsDecoration(hint, null),
+    decoration: textFormFieldsDecoration(hint, null, null),
   );
 }
 
@@ -145,12 +159,29 @@ TextFormField specialPasswordFormField(String hint, TextAlign align,
     style: TextStyle(color: Colors.white),
     textAlign: align,
     obscureText: true,
-    decoration: textFormFieldsDecoration(hint, null),
+    decoration: textFormFieldsDecoration(hint, null, null),
     validator: valMethod,
   );
 }
 
-TextFormField specialNumericFormField(String hint, TextAlign align,
+TextFormField specialAmountFormField(
+    String hint,
+    TextAlign align,
+    String valMethod(String value),
+    TextEditingController fieldController,
+    String currency) {
+  return TextFormField(
+    controller: fieldController,
+    keyboardType: TextInputType.number,
+    style: TextStyle(color: Colors.white),
+    textAlign: align,
+    obscureText: false,
+    decoration: textFormFieldsDecoration(hint, null, currency),
+    validator: valMethod,
+  );
+}
+
+TextFormField specialPhoneFormField(String hint, TextAlign align,
     String valMethod(String value), TextEditingController fieldController) {
   return TextFormField(
     controller: fieldController,
@@ -158,7 +189,7 @@ TextFormField specialNumericFormField(String hint, TextAlign align,
     style: TextStyle(color: Colors.white),
     textAlign: align,
     obscureText: false,
-    decoration: textFormFieldsDecoration(hint, null),
+    decoration: textFormFieldsDecoration(hint, null, null),
     validator: valMethod,
   );
 }
@@ -171,21 +202,18 @@ TextFormField specialDatePicker(
     BuildContext context,
     String valMethod(String value),
     TextEditingController fieldController) {
-  //final dateController = TextEditingController();
-
   return TextFormField(
     controller: fieldController,
     readOnly: true,
-    //controller: dateController,
     validator: valMethod,
-    decoration: textFormFieldsDecoration(label, Icons.calendar_today_outlined),
+    decoration:
+        textFormFieldsDecoration(label, Icons.calendar_today_outlined, null),
     onTap: () async {
       var date = await showDatePicker(
           context: context,
           initialDate: iDate,
           firstDate: fDate,
           lastDate: lDate);
-      //dateController.text = date.toString().substring(0, 10);
       fieldController.text = date.toString().substring(0, 10);
     },
   );
@@ -193,18 +221,21 @@ TextFormField specialDatePicker(
 
 DropdownButtonFormField specialDropdown(String hint, List<String> items,
     String valMethod(String value), TextEditingController fieldController) {
-  //final dropdownController = TextEditingController();
   return DropdownButtonFormField(
-    validator: null,
-    decoration: textFormFieldsDecoration(hint, null),
+    icon: Icon(null),
+    validator: valMethod,
+    decoration: textFormFieldsDecoration(hint, Icons.keyboard_arrow_down, null),
     onChanged: (value) {
-      //dropdownController.text = value;
       fieldController.text = value;
     },
+    dropdownColor: Color(0xff60e7ff),
     items: items.map<DropdownMenuItem<String>>((String value) {
       return DropdownMenuItem<String>(
         value: value,
-        child: Text(value),
+        child: Text(
+          value,
+          style: TextStyle(color: Colors.white),
+        ),
       );
     }).toList(),
   );

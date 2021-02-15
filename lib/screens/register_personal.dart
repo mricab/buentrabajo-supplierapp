@@ -78,7 +78,7 @@ class _RegisterPersonalState extends State<RegisterPersonal> {
                                 ],
                                 validateCity,
                                 city),
-                            specialNumericFormField(
+                            specialPhoneFormField(
                                 'Teléfono', _lft, validatePhone, phone),
                             specialTextFormField('Doc. de Identidad', _lft,
                                 validateIdNum, id_num),
