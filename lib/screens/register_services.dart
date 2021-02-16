@@ -4,6 +4,7 @@ import 'package:supplierapp/ui/specialUI.dart';
 import 'package:supplierapp/screens/register_instructions.dart';
 import 'package:supplierapp/screens/login.dart';
 import 'package:supplierapp/models/newsupplier.dart';
+import 'package:supplierapp/widgets/chipsField.dart';
 
 class RegisterServices extends StatefulWidget {
   @override
@@ -23,6 +24,22 @@ class _RegisterServicesState extends State<RegisterServices> {
     final service = TextEditingController();
     final description = TextEditingController();
     final price = TextEditingController();
+    final ChipsController schedule = new ChipsController(List());
+
+    //Chips
+    List<String> options = [
+      'L-8.30-12.30',
+      'L-14.30-18.30',
+      'L-19.00-23.00',
+      'Automotive',
+      'Sports',
+      'Education',
+      'Fashion',
+      'Travel',
+      'Food',
+      'Tech',
+      'Science',
+    ];
 
     return Container(
         decoration: specialBackground(),
@@ -54,7 +71,7 @@ class _RegisterServicesState extends State<RegisterServices> {
                           child: ListView(
                             children: [
                               specialDropdown(
-                                  'Tipo de Servicio*',
+                                  'Tipo de Servicio',
                                   <String>[
                                     'Mantenimiento',
                                     'Instalación',
@@ -66,18 +83,18 @@ class _RegisterServicesState extends State<RegisterServices> {
                                   3, 4, validateDescription, description),
                               specialAmountFormField(
                                   'Precio', _lft, validatePrice, price, 'Bs.'),
+                              specialScheduleField(
+                                  'Horario', context, null, schedule),
                             ],
                           )),
                     ),
                     specialButton('Enviar', () {
-                      var supplier = new Supplier();
-                      supplier.saveService(
-                          service.text, description.text, price.text);
-                      validateAndSend(
-                          context, _nextRoute, _regSerKey, supplier, 'service');
-                      print(service.text);
-                      print(description.text);
-                      print(price.text);
+                      print(schedule.data);
+                      // var supplier = new Supplier();
+                      // supplier.saveService(
+                      //     service.text, description.text, price.text);
+                      // validateAndSend(
+                      //     context, _nextRoute, _regSerKey, supplier, 'service');
                     })
                   ]),
             ),
