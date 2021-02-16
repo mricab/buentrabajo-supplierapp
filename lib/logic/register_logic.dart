@@ -6,13 +6,13 @@ import 'package:supplierapp/utils/network.dart';
 // Flow
 void validateAndSend(BuildContext context, MaterialPageRoute route,
     GlobalKey<FormState> key, Supplier supplier, String api) {
-  if (key.currentState.validate()) {
-    Navigator.push(context, route);
-    if (externalValidation(api, supplier) != null) {
-      //Retornar errores
-    }
-  }
-  //Navigator.push(context, route);
+  // if (key.currentState.validate()) {
+  //   Navigator.push(context, route);
+  //   if (externalValidation(api, supplier) != null) {
+  //     //Retornar errores
+  //   }
+  // }
+  Navigator.push(context, route);
 }
 
 Future<String> externalValidation(String apiMethod, Supplier supplier) async {
@@ -152,7 +152,11 @@ String validateExperience(String value) {
 }
 
 String validateLocation(String value) {
-  return null; //Localización
+  //Locarion Picker
+  if (value == null) {
+    return 'Indique una posición.';
+  }
+  return null;
 }
 
 String validateServiceType(dynamic value) {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supplierapp/widgets/avatarField.dart';
+import 'package:supplierapp/widgets/locationPickerField.dart';
+import 'package:simple_location_picker/utils/slp_constants.dart';
 
 BoxDecoration specialBackground() {
   return BoxDecoration(
@@ -259,5 +261,26 @@ Widget specialAvatarField(BuildContext context, String valMethod(String value),
     ),
     modalCameraIcon: Icon(Icons.camera, color: Colors.lightBlue),
     modalGalleryIcon: Icon(Icons.photo, color: Colors.lightBlue),
+  );
+}
+
+Widget specialLocationField(
+    BuildContext context,
+    String valMethod(String value),
+    TextEditingController latController,
+    TextEditingController lngController) {
+  return LocationPickerField(
+    context: context,
+    latController: latController,
+    lngController: lngController,
+    validator: valMethod,
+    avatarRadius: 45,
+    avatarBackground: Color(0x8860e7ff),
+    appBarTitle: 'Dirección Laboral',
+    appBarColor: Colors.black87,
+    appBarTextColor: Colors.white,
+    markerColor: Colors.blue,
+    startingLatitude: SLPConstants.DEFAULT_LATITUDE,
+    startingLongitude: SLPConstants.DEFAULT_LONGITUDE,
   );
 }

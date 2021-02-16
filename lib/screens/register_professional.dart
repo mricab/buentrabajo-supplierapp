@@ -4,6 +4,7 @@ import 'package:supplierapp/ui/specialUI.dart';
 import 'package:supplierapp/screens/register_services.dart';
 import 'package:supplierapp/screens/login.dart';
 import 'package:supplierapp/models/newsupplier.dart';
+import 'package:supplierapp/widgets/locationPickerField.dart';
 
 class RegisterProfessional extends StatefulWidget {
   @override
@@ -23,7 +24,8 @@ class _RegisterProfessionalState extends State<RegisterProfessional> {
     final profession = TextEditingController();
     final experience = TextEditingController();
     final work_address = TextEditingController();
-    final location = TextEditingController();
+    final work_latitude = TextEditingController();
+    final work_longitude = TextEditingController();
 
     return Container(
         decoration: specialBackground(),
@@ -52,6 +54,10 @@ class _RegisterProfessionalState extends State<RegisterProfessional> {
                         key: _regProKey,
                         child: Column(
                           children: [
+                            specialLocationField(context, validateLocation,
+                                work_longitude, work_longitude),
+                            specialTextFormField('Dirección laboral', _lft,
+                                validateAddress, work_address),
                             specialDropdown(
                                 'Profesión',
                                 <String>[
@@ -65,14 +71,12 @@ class _RegisterProfessionalState extends State<RegisterProfessional> {
                                 profession),
                             specialMultiLineTextFormField('Experiencia', _lft,
                                 4, 5, validateExperience, experience),
-                            specialTextFormField('Dirección Laboral', _lft,
-                                validateAddress, work_address),
-                            specialTextFormField('Localización*', _lft,
-                                validateLocation, location),
                             SizedBox(
                               height: 30,
                             ),
                             specialButton('Siguiente', () {
+                              print(work_latitude.text);
+                              print(work_longitude.text);
                               var supplier = new Supplier();
                               supplier.saveProfessional(
                                   profession.text,

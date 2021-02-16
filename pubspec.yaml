@@ -33,6 +33,7 @@ dependencies:
   image_picker: ^0.6.7+17
   path: ^1.7.0
   http_parser: ^3.1.4  
+  simple_location_picker: ^0.0.3
 
 dev_dependencies:
   flutter_test:
