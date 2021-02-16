@@ -39,57 +39,55 @@ class _RegisterProfessionalState extends State<RegisterProfessional> {
           ]),
           body: Center(
             child: Padding(
-              padding: EdgeInsets.fromLTRB(50, 80, 50, 80),
+              padding: EdgeInsets.fromLTRB(50, 30, 50, 30),
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Spacer(flex: 1),
                     specialTitle('Registro'),
                     SizedBox(
                       height: 15,
                     ),
                     specialSubtitle('Paso 3: Datos Profesionales'),
-                    Spacer(flex: 1),
-                    Form(
-                        key: _regProKey,
-                        child: Column(
-                          children: [
-                            specialLocationField(context, validateLocation,
-                                work_longitude, work_longitude),
-                            specialTextFormField('Dirección laboral', _lft,
-                                validateAddress, work_address),
-                            specialDropdown(
-                                'Profesión',
-                                <String>[
-                                  'Carpintero',
-                                  'Cerrajero',
-                                  'Albañil',
-                                  'Plomero',
-                                  'Técnico de Aire Acondicionado',
-                                ],
-                                validateProfession,
-                                profession),
-                            specialMultiLineTextFormField('Experiencia', _lft,
-                                4, 5, validateExperience, experience),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            specialButton('Siguiente', () {
-                              print(work_latitude.text);
-                              print(work_longitude.text);
-                              var supplier = new Supplier();
-                              supplier.saveProfessional(
-                                  profession.text,
-                                  experience.text,
-                                  work_address.text,
-                                  '123',
-                                  '123');
-                              validateAndSend(context, _nextRoute, _regProKey,
-                                  supplier, 'professional');
-                            }),
-                          ],
-                        )),
-                    Spacer(flex: 1),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Expanded(
+                      child: Form(
+                          key: _regProKey,
+                          child: ListView(
+                            children: [
+                              specialLocationField(context, validateLocation,
+                                  work_longitude, work_longitude),
+                              specialTextFormField('Dirección laboral', _lft,
+                                  validateAddress, work_address),
+                              specialDropdown(
+                                  'Profesión',
+                                  <String>[
+                                    'Carpintero',
+                                    'Cerrajero',
+                                    'Albañil',
+                                    'Plomero',
+                                    'Técnico de Aire Acond.',
+                                  ],
+                                  validateProfession,
+                                  profession),
+                              specialMultiLineTextFormField('Experiencia', _lft,
+                                  4, 5, validateExperience, experience),
+                              SizedBox(
+                                height: 30,
+                              ),
+                            ],
+                          )),
+                    ),
+                    specialButton('Siguiente', () {
+                      print(work_latitude.text);
+                      print(work_longitude.text);
+                      var supplier = new Supplier();
+                      supplier.saveProfessional(profession.text,
+                          experience.text, work_address.text, '123', '123');
+                      validateAndSend(context, _nextRoute, _regProKey, supplier,
+                          'professional');
+                    })
                   ]),
             ),
           ),

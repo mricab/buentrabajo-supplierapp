@@ -36,50 +36,49 @@ class _RegisterServicesState extends State<RegisterServices> {
           ]),
           body: Center(
             child: Padding(
-              padding: EdgeInsets.fromLTRB(50, 80, 50, 80),
+              padding: EdgeInsets.fromLTRB(50, 30, 50, 30),
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Spacer(flex: 1),
                     specialTitle('Registro'),
                     SizedBox(
                       height: 15,
                     ),
                     specialSubtitle('Paso 4: Primer Servicio'),
-                    Spacer(flex: 1),
-                    Form(
-                        key: _regSerKey,
-                        child: Column(
-                          children: [
-                            specialDropdown(
-                                'Tipo de Servicio*',
-                                <String>[
-                                  'Mantenimiento',
-                                  'Instalación',
-                                  'Asesoramiento',
-                                ],
-                                validateServiceType,
-                                service),
-                            specialMultiLineTextFormField('Descripción', _lft,
-                                3, 4, validateDescription, description),
-                            specialAmountFormField(
-                                'Precio', _lft, validatePrice, price, 'Bs.'),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            specialButton('Enviar', () {
-                              var supplier = new Supplier();
-                              supplier.saveService(
-                                  service.text, description.text, price.text);
-                              validateAndSend(context, _nextRoute, _regSerKey,
-                                  supplier, 'service');
-                              print(service.text);
-                              print(description.text);
-                              print(price.text);
-                            }),
-                          ],
-                        )),
-                    Spacer(flex: 1),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Expanded(
+                      child: Form(
+                          key: _regSerKey,
+                          child: ListView(
+                            children: [
+                              specialDropdown(
+                                  'Tipo de Servicio*',
+                                  <String>[
+                                    'Mantenimiento',
+                                    'Instalación',
+                                    'Asesoramiento',
+                                  ],
+                                  validateServiceType,
+                                  service),
+                              specialMultiLineTextFormField('Descripción', _lft,
+                                  3, 4, validateDescription, description),
+                              specialAmountFormField(
+                                  'Precio', _lft, validatePrice, price, 'Bs.'),
+                            ],
+                          )),
+                    ),
+                    specialButton('Enviar', () {
+                      var supplier = new Supplier();
+                      supplier.saveService(
+                          service.text, description.text, price.text);
+                      validateAndSend(
+                          context, _nextRoute, _regSerKey, supplier, 'service');
+                      print(service.text);
+                      print(description.text);
+                      print(price.text);
+                    })
                   ]),
             ),
           ),

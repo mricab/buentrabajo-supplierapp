@@ -44,71 +44,68 @@ class _RegisterPersonalState extends State<RegisterPersonal> {
           ]),
           body: Center(
             child: Padding(
-              padding: EdgeInsets.fromLTRB(50, 80, 50, 80),
+              padding: EdgeInsets.fromLTRB(50, 30, 50, 30),
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Spacer(flex: 1),
                     specialTitle('Registro'),
                     SizedBox(
                       height: 15,
                     ),
                     specialSubtitle('Paso 2: Datos Personales'),
-                    Spacer(flex: 1),
-                    Form(
-                        key: _regPerKey,
-                        child: Column(
-                          children: [
-                            specialDatePicker(
-                                'Fecha de Nacimiento',
-                                iDate,
-                                fDate,
-                                lDate,
-                                context,
-                                validateBirthDate,
-                                birthdate),
-                            specialTextFormField('Dirección de Domicilio', _lft,
-                                validateAddress, home_address),
-                            specialDropdown(
-                                'Ciudad de Residencia',
-                                <String>[
-                                  'La Paz',
-                                  'Cochabamba',
-                                  'Santa Cruz',
-                                ],
-                                validateCity,
-                                city),
-                            specialPhoneFormField(
-                                'Teléfono', _lft, validatePhone, phone),
-                            specialTextFormField('Doc. de Identidad', _lft,
-                                validateIdNum, id_num),
-                            specialDropdown(
-                                'Tipo Doc. de Identidad',
-                                <String>[
-                                  'Carnet',
-                                  'Pasaporte',
-                                  'Tarj. Residencia'
-                                ],
-                                validateIdType,
-                                id_type),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            specialButton('Siguiente', () {
-                              var supplier = new Supplier();
-                              supplier.savePersonal(
-                                  birthdate.text,
-                                  home_address.text,
-                                  city.text,
-                                  phone.text,
-                                  id_num.text,
-                                  id_type.text);
-                              validateAndSend(context, _nextRoute, _regPerKey,
-                                  supplier, 'personal');
-                            }),
-                          ],
-                        )),
-                    Spacer(flex: 1),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Expanded(
+                      child: Form(
+                          key: _regPerKey,
+                          child: ListView(
+                            children: [
+                              specialDatePicker(
+                                  'Fecha de Nacimiento',
+                                  iDate,
+                                  fDate,
+                                  lDate,
+                                  context,
+                                  validateBirthDate,
+                                  birthdate),
+                              specialTextFormField('Dirección de Domicilio',
+                                  _lft, validateAddress, home_address),
+                              specialDropdown(
+                                  'Ciudad de Residencia',
+                                  <String>[
+                                    'La Paz',
+                                    'Cochabamba',
+                                    'Santa Cruz',
+                                  ],
+                                  validateCity,
+                                  city),
+                              specialPhoneFormField(
+                                  'Teléfono', _lft, validatePhone, phone),
+                              specialTextFormField('Doc. de Identidad', _lft,
+                                  validateIdNum, id_num),
+                              specialDropdown(
+                                  'Tipo Doc. de Identidad',
+                                  <String>[
+                                    'Carnet',
+                                    'Pasaporte',
+                                    'Tarj. Residencia'
+                                  ],
+                                  validateIdType,
+                                  id_type),
+                              SizedBox(
+                                height: 30,
+                              ),
+                            ],
+                          )),
+                    ),
+                    specialButton('Siguiente', () {
+                      var supplier = new Supplier();
+                      supplier.savePersonal(birthdate.text, home_address.text,
+                          city.text, phone.text, id_num.text, id_type.text);
+                      validateAndSend(context, _nextRoute, _regPerKey, supplier,
+                          'personal');
+                    })
                   ]),
             ),
           ),
