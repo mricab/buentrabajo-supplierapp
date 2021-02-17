@@ -13,10 +13,9 @@ class ChipsField extends FormField<List<String>> {
     FormFieldValidator<List<String>> validator,
     ChipsController controller,
   }) : super(
-          initialValue: null,
+          initialValue: controller.data,
           onSaved: (val) {
             controller.data = val;
-            print(controller.data);
           },
           validator: validator,
           builder: (state) {
@@ -44,7 +43,7 @@ class ChipsField extends FormField<List<String>> {
                       color: Colors.indigo,
                       brightness: Brightness.dark,
                     ),
-                    wrapped: true,
+                    wrapped: false,
                   ),
                 ),
                 state.hasError

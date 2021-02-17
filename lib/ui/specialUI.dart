@@ -292,6 +292,7 @@ Widget specialScheduleField(
   String valMethod(String value),
   ChipsController scheduleController,
 ) {
+  TextEditingController fieldController = TextEditingController();
   ChipsController mondayController = ChipsController(List());
   ChipsController tuesdayController = ChipsController(List());
   ChipsController wednesdayController = ChipsController(List());
@@ -301,10 +302,11 @@ Widget specialScheduleField(
   ChipsController sundayController = ChipsController(List());
 
   return TextFormField(
+    controller: fieldController,
     decoration: textFormFieldsDecoration(label, Icons.access_time, null),
     validator: valMethod,
-    onTap: () {
-      showDialog(
+    onTap: () async {
+      var selected = await showDialog(
         context: context,
         builder: (_) => Dialog(
             insetPadding: EdgeInsets.fromLTRB(30, 80, 30, 100),
@@ -325,108 +327,86 @@ Widget specialScheduleField(
                     height: 30,
                   ),
                   Expanded(
-                    child: Form(
-                      child: ListView(
-                        children: [
-                          Center(
-                            child: Text(
-                              'LUNES',
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.bold),
-                            ),
+                    child: ListView(
+                      children: [
+                        Center(
+                          child: Text(
+                            'LUNES',
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold),
                           ),
-                          ChipsField(
-                            options: [
-                              '8.30-12.30',
-                              '14.30-18.30',
-                              '19.00-23.00'
-                            ],
-                            controller: mondayController,
+                        ),
+                        ChipsField(
+                          options: ['8.30-12.30', '14.30-18.30', '19.00-23.00'],
+                          controller: mondayController,
+                        ),
+                        Center(
+                          child: Text(
+                            'Martes',
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold),
                           ),
-                          Center(
-                            child: Text(
-                              'Martes',
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.bold),
-                            ),
+                        ),
+                        ChipsField(
+                          options: ['8.30-12.30', '14.30-18.30', '19.00-23.00'],
+                          controller: tuesdayController,
+                        ),
+                        Center(
+                          child: Text(
+                            'Miercoles',
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold),
                           ),
-                          ChipsField(
-                            options: [
-                              '8.30-12.30',
-                              '14.30-18.30',
-                              '19.00-23.00'
-                            ],
-                            controller: tuesdayController,
+                        ),
+                        ChipsField(
+                          options: ['8.30-12.30', '14.30-18.30', '19.00-23.00'],
+                          controller: wednesdayController,
+                        ),
+                        Center(
+                          child: Text(
+                            'Jueves',
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold),
                           ),
-                          Center(
-                            child: Text(
-                              'Miercoles',
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.bold),
-                            ),
+                        ),
+                        ChipsField(
+                          options: ['8.30-12.30', '14.30-18.30', '19.00-23.00'],
+                          controller: thursdayController,
+                        ),
+                        Center(
+                          child: Text(
+                            'Viernes',
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold),
                           ),
-                          ChipsField(
-                            options: [
-                              '8.30-12.30',
-                              '14.30-18.30',
-                              '19.00-23.00'
-                            ],
-                            controller: wednesdayController,
+                        ),
+                        ChipsField(
+                          options: ['8.30-12.30', '14.30-18.30', '19.00-23.00'],
+                          controller: fridayController,
+                        ),
+                        Center(
+                          child: Text(
+                            'Sábado',
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold),
                           ),
-                          Center(
-                            child: Text(
-                              'Jueves',
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.bold),
-                            ),
+                        ),
+                        ChipsField(
+                          options: ['8.30-12.30'],
+                          controller: saturdayController,
+                        ),
+                        Center(
+                          child: Text(
+                            'Domingo',
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold),
                           ),
-                          ChipsField(
-                            options: [
-                              '8.30-12.30',
-                              '14.30-18.30',
-                              '19.00-23.00'
-                            ],
-                            controller: thursdayController,
-                          ),
-                          Center(
-                            child: Text(
-                              'Viernes',
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          ChipsField(
-                            options: [
-                              '8.30-12.30',
-                              '14.30-18.30',
-                              '19.00-23.00'
-                            ],
-                            controller: fridayController,
-                          ),
-                          Center(
-                            child: Text(
-                              'Sábado',
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          ChipsField(
-                            options: ['8.30-12.30'],
-                            controller: saturdayController,
-                          ),
-                          Center(
-                            child: Text(
-                              'Domingo',
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          ChipsField(
-                            options: ['8.30-12.30'],
-                            controller: sundayController,
-                          ),
-                        ],
-                      ),
+                        ),
+                        ChipsField(
+                          options: ['8.30-12.30'],
+                          controller: sundayController,
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(
@@ -434,15 +414,15 @@ Widget specialScheduleField(
                   ),
                   FlatButton(
                     onPressed: () {
-                      scheduleController.data = mondayController.data;
+                      scheduleController.data.clear();
+                      scheduleController.data.addAll(mondayController.data);
                       scheduleController.data.addAll(tuesdayController.data);
-                      scheduleController.data.addAll(thursdayController.data);
                       scheduleController.data.addAll(wednesdayController.data);
+                      scheduleController.data.addAll(thursdayController.data);
                       scheduleController.data.addAll(fridayController.data);
                       scheduleController.data.addAll(saturdayController.data);
                       scheduleController.data.addAll(sundayController.data);
-                      print(scheduleController.data);
-                      Navigator.pop(context);
+                      Navigator.pop(context, scheduleController.data);
                     },
                     child: Container(
                       alignment: Alignment.center,
@@ -461,6 +441,9 @@ Widget specialScheduleField(
               ),
             )),
       );
+      int selNumber = selected.length;
+      fieldController.text = '$selNumber horarios seleccionados.';
+      print(selected);
     },
   );
 }
