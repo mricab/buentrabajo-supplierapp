@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:supplierapp/screens/register_account.dart';
+import 'package:supplierapp/screens/register_personal.dart';
 import 'package:supplierapp/screens/password_recover.dart';
 import 'package:supplierapp/ui/specialUI.dart';
 
@@ -55,7 +55,7 @@ class _LoginState extends State<Login> {
                         14,
                         context,
                         new MaterialPageRoute(
-                            builder: (context) => RegisterAccount()))
+                            builder: (context) => RegisterPersonal()))
                   ]),
             ),
           ),

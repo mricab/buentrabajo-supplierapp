@@ -3,43 +3,42 @@ import 'package:supplierapp/logic/register_logic.dart';
 import 'package:supplierapp/ui/specialUI.dart';
 import 'package:supplierapp/screens/register_instructions.dart';
 import 'package:supplierapp/screens/login.dart';
-import 'package:supplierapp/models/newsupplier.dart';
+import 'package:supplierapp/models/supplier.dart';
+import 'package:supplierapp/models/service.dart';
+import 'package:supplierapp/models/schedule.dart';
 import 'package:supplierapp/widgets/chipsField.dart';
 
 class RegisterServices extends StatefulWidget {
+  //Supplier
+  Supplier supplier;
+  RegisterServices({Key key, @required this.supplier}) : super(key: key);
+
   @override
-  _RegisterServicesState createState() => _RegisterServicesState();
+  _RegisterServicesState createState() =>
+      _RegisterServicesState(supplier: supplier);
 }
 
 class _RegisterServicesState extends State<RegisterServices> {
+  Supplier supplier;
+  bool registrationSuccess;
+  _RegisterServicesState({@required this.supplier});
+
   @override
   Widget build(BuildContext context) {
+    //Constants
     final _regSerKey = GlobalKey<FormState>();
     final _lft = TextAlign.left;
-    final _nextRoute =
-        new MaterialPageRoute(builder: (context) => RegisterInstructions());
+    final _nextRoute = new MaterialPageRoute(
+        builder: (context) => RegisterInstructions(
+              success: registrationSuccess,
+            ));
     final _loginRoute = new MaterialPageRoute(builder: (context) => Login());
 
     //Form Fields Controllers
-    final service = TextEditingController();
+    final serviceType = TextEditingController();
     final description = TextEditingController();
     final price = TextEditingController();
-    final ChipsController schedule = new ChipsController(List());
-
-    //Chips
-    List<String> options = [
-      'L-8.30-12.30',
-      'L-14.30-18.30',
-      'L-19.00-23.00',
-      'Automotive',
-      'Sports',
-      'Education',
-      'Fashion',
-      'Travel',
-      'Food',
-      'Tech',
-      'Science',
-    ];
+    final ChipsController schedules = new ChipsController(List());
 
     return Container(
         decoration: specialBackground(),
@@ -78,23 +77,26 @@ class _RegisterServicesState extends State<RegisterServices> {
                                     'Asesoramiento',
                                   ],
                                   validateServiceType,
-                                  service),
+                                  serviceType),
                               specialMultiLineTextFormField('Descripción', _lft,
                                   3, 4, validateDescription, description),
                               specialAmountFormField(
                                   'Precio', _lft, validatePrice, price, 'Bs.'),
                               specialScheduleField(
-                                  'Horario', context, null, schedule),
+                                  'Horario', context, null, schedules),
                             ],
                           )),
                     ),
-                    specialButton('Enviar', () {
-                      print(schedule.data);
-                      // var supplier = new Supplier();
-                      // supplier.saveService(
-                      //     service.text, description.text, price.text);
-                      // validateAndSend(
-                      //     context, _nextRoute, _regSerKey, supplier, 'service');
+                    specialButton('Siguiente', () async {
+                      Service service = new Service(
+                          serviceType.text, description.text, price.text);
+                      supplier.addService(service);
+                      bool val =
+                          await validate(_regSerKey, supplier, 'service');
+                      if (val) {
+                        registrationSuccess = await saveNewSupplier(supplier);
+                        Navigator.push(context, _nextRoute);
+                      }
                     })
                   ]),
             ),

@@ -1,29 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:supplierapp/ui/specialUI.dart';
-import 'package:supplierapp/screens/register_personal.dart';
+import 'package:supplierapp/screens/register_professional.dart';
 import 'package:supplierapp/screens/login.dart';
 import 'package:supplierapp/logic/register_logic.dart';
-import 'package:supplierapp/models/newsupplier.dart';
+import 'package:supplierapp/models/supplier.dart';
 
 class RegisterAccount extends StatefulWidget {
+  //Supplier
+  Supplier supplier;
+  RegisterAccount({Key key, @required this.supplier}) : super(key: key);
+
   @override
-  _RegisterAccountState createState() => _RegisterAccountState();
+  _RegisterAccountState createState() =>
+      _RegisterAccountState(supplier: supplier);
 }
 
 class _RegisterAccountState extends State<RegisterAccount> {
+  Supplier supplier;
+  _RegisterAccountState({@required this.supplier});
+
   @override
   Widget build(BuildContext context) {
+    //Constants
     final _regAccKey = GlobalKey<FormState>();
     final _lft = TextAlign.left;
-    final _nextRoute =
-        new MaterialPageRoute(builder: (context) => RegisterPersonal());
+    final _nextRoute = new MaterialPageRoute(
+        builder: (context) => RegisterProfessional(
+              supplier: supplier,
+            ));
     final _loginRoute = new MaterialPageRoute(builder: (context) => Login());
 
     //Form Fields Controllers
-    final avatar = TextEditingController();
-    final name = TextEditingController();
-    final first_last_name = TextEditingController();
-    final second_last_name = TextEditingController();
     final email = TextEditingController();
     final password = TextEditingController();
 
@@ -47,7 +54,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                     SizedBox(
                       height: 15,
                     ),
-                    specialSubtitle('Paso 1: Crear una cuenta'),
+                    specialSubtitle('Paso 2: Datos del Usuario'),
                     SizedBox(
                       height: 30,
                     ),
@@ -56,13 +63,6 @@ class _RegisterAccountState extends State<RegisterAccount> {
                         key: _regAccKey,
                         child: ListView(
                           children: [
-                            specialAvatarField(context, validateAvatar, avatar),
-                            specialTextFormField(
-                                'Nombre', _lft, validatePersonName, name),
-                            specialTextFormField('Primer Apellido', _lft,
-                                validatePersonLastName, first_last_name),
-                            specialTextFormField('Segundo Apellido', _lft,
-                                validatePersonLastName, second_last_name),
                             specialTextFormField(
                                 'Email', _lft, validateUserEmail, email),
                             specialPasswordFormField('Password', _lft,
@@ -74,17 +74,12 @@ class _RegisterAccountState extends State<RegisterAccount> {
                         ),
                       ),
                     ),
-                    specialButton('Siguiente', () {
-                      var supplier = new Supplier();
-                      supplier.saveAccount(
-                          avatar.text,
-                          name.text,
-                          first_last_name.text,
-                          second_last_name.text,
-                          email.text,
-                          password.text);
-                      validateAndSend(
-                          context, _nextRoute, _regAccKey, supplier, 'account');
+                    specialButton('Siguiente', () async {
+                      supplier.user.setUser(email.text, password.text);
+                      bool val = await validate(_regAccKey, supplier, 'user');
+                      if (val) {
+                        Navigator.push(context, _nextRoute);
+                      }
                     })
                   ]),
             ),

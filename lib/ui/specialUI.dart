@@ -25,14 +25,34 @@ AppBar specialAppBar(List<Widget> buttons) {
 
 Text specialTitle(String title) {
   return Text(title,
+      textAlign: TextAlign.center,
       style: TextStyle(
           fontSize: 36, fontWeight: FontWeight.w500, color: Colors.white));
 }
 
 Text specialSubtitle(String subtitle) {
   return Text(subtitle,
+      textAlign: TextAlign.center,
       style: TextStyle(
           fontSize: 20, fontWeight: FontWeight.w400, color: Colors.white));
+}
+
+Text specialMessage(String message) {
+  return Text(
+    message,
+    textAlign: TextAlign.center,
+    style: TextStyle(
+        fontSize: 15, fontWeight: FontWeight.w400, color: Colors.white),
+  );
+}
+
+Text specialEmoticon(String message) {
+  return Text(
+    message,
+    textAlign: TextAlign.center,
+    style: TextStyle(
+        fontSize: 25, fontWeight: FontWeight.w400, color: Colors.white),
+  );
 }
 
 Widget specialInkWell(

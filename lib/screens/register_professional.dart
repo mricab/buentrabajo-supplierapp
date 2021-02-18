@@ -3,21 +3,32 @@ import 'package:supplierapp/logic/register_logic.dart';
 import 'package:supplierapp/ui/specialUI.dart';
 import 'package:supplierapp/screens/register_services.dart';
 import 'package:supplierapp/screens/login.dart';
-import 'package:supplierapp/models/newsupplier.dart';
+import 'package:supplierapp/models/supplier.dart';
 import 'package:supplierapp/widgets/locationPickerField.dart';
 
 class RegisterProfessional extends StatefulWidget {
+  //Supplier
+  Supplier supplier;
+  RegisterProfessional({Key key, @required this.supplier}) : super(key: key);
+
   @override
-  _RegisterProfessionalState createState() => _RegisterProfessionalState();
+  _RegisterProfessionalState createState() =>
+      _RegisterProfessionalState(supplier: supplier);
 }
 
 class _RegisterProfessionalState extends State<RegisterProfessional> {
+  Supplier supplier;
+  _RegisterProfessionalState({@required this.supplier});
+
   @override
   Widget build(BuildContext context) {
+    //Constants
     final _regProKey = GlobalKey<FormState>();
     final _lft = TextAlign.left;
-    final _nextRoute =
-        new MaterialPageRoute(builder: (context) => RegisterServices());
+    final _nextRoute = new MaterialPageRoute(
+        builder: (context) => RegisterServices(
+              supplier: supplier,
+            ));
     final _loginRoute = new MaterialPageRoute(builder: (context) => Login());
 
     //Form Fields Controllers
@@ -57,9 +68,9 @@ class _RegisterProfessionalState extends State<RegisterProfessional> {
                           child: ListView(
                             children: [
                               specialLocationField(context, validateLocation,
-                                  work_longitude, work_longitude),
+                                  work_latitude, work_longitude),
                               specialTextFormField('Dirección laboral', _lft,
-                                  validateAddress, work_address),
+                                  validateWorkAddress, work_address),
                               specialDropdown(
                                   'Profesión',
                                   <String>[
@@ -79,14 +90,18 @@ class _RegisterProfessionalState extends State<RegisterProfessional> {
                             ],
                           )),
                     ),
-                    specialButton('Siguiente', () {
-                      print(work_latitude.text);
-                      print(work_longitude.text);
-                      var supplier = new Supplier();
-                      supplier.saveProfessional(profession.text,
-                          experience.text, work_address.text, '123', '123');
-                      validateAndSend(context, _nextRoute, _regProKey, supplier,
-                          'professional');
+                    specialButton('Siguiente', () async {
+                      supplier.setSupplier(
+                          profession.text,
+                          experience.text,
+                          work_address.text,
+                          work_latitude.text,
+                          work_longitude.text);
+                      bool val =
+                          await validate(_regProKey, supplier, 'professional');
+                      if (val) {
+                        Navigator.push(context, _nextRoute);
+                      }
                     })
                   ]),
             ),

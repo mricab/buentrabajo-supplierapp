@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:supplierapp/logic/register_logic.dart';
 import 'package:supplierapp/ui/specialUI.dart';
-import 'package:supplierapp/screens/register_professional.dart';
+import 'package:supplierapp/screens/register_account.dart';
 import 'package:supplierapp/screens/login.dart';
-import 'package:supplierapp/models/newsupplier.dart';
+import 'package:supplierapp/models/supplier.dart';
 
 class RegisterPersonal extends StatefulWidget {
   @override
@@ -13,19 +13,30 @@ class RegisterPersonal extends StatefulWidget {
 class _RegisterPersonalState extends State<RegisterPersonal> {
   @override
   Widget build(BuildContext context) {
+    // Constructur
+    Supplier supplier;
+
+    // Constants
     final _regPerKey = GlobalKey<FormState>();
     final _lft = TextAlign.left;
-    final _nextRoute =
-        new MaterialPageRoute(builder: (context) => RegisterProfessional());
+    final _nextRoute = new MaterialPageRoute(
+        builder: (context) => RegisterAccount(
+              supplier: supplier,
+            ));
     final _loginRoute = new MaterialPageRoute(builder: (context) => Login());
 
+    //Birth Date Form Fiel Parameters
     var now = DateTime.now();
     var iDate = now.subtract(new Duration(days: 10950)); //30*365=10950
     var fDate = now.subtract(new Duration(days: 32850)); //90*365=32850
     var lDate = now.subtract(new Duration(days: 6750)); //18*365=6750
 
     //Form Fields Controllers
-    final birthdate = TextEditingController();
+    var avatar = TextEditingController();
+    var name = TextEditingController();
+    final first_last_name = TextEditingController();
+    final second_last_name = TextEditingController();
+    final birth_date = TextEditingController();
     final home_address = TextEditingController();
     final city = TextEditingController();
     final phone = TextEditingController();
@@ -52,7 +63,7 @@ class _RegisterPersonalState extends State<RegisterPersonal> {
                     SizedBox(
                       height: 15,
                     ),
-                    specialSubtitle('Paso 2: Datos Personales'),
+                    specialSubtitle('Paso 1: Datos Personales'),
                     SizedBox(
                       height: 30,
                     ),
@@ -61,6 +72,14 @@ class _RegisterPersonalState extends State<RegisterPersonal> {
                           key: _regPerKey,
                           child: ListView(
                             children: [
+                              specialAvatarField(
+                                  context, validateAvatar, avatar),
+                              specialTextFormField(
+                                  'Nombre', _lft, validateName, name),
+                              specialTextFormField('Primer Apellido', _lft,
+                                  validateFirstLastName, first_last_name),
+                              specialTextFormField('Segundo Apellido', _lft,
+                                  validateSecondLastName, second_last_name),
                               specialDatePicker(
                                   'Fecha de Nacimiento',
                                   iDate,
@@ -68,9 +87,9 @@ class _RegisterPersonalState extends State<RegisterPersonal> {
                                   lDate,
                                   context,
                                   validateBirthDate,
-                                  birthdate),
+                                  birth_date),
                               specialTextFormField('Dirección de Domicilio',
-                                  _lft, validateAddress, home_address),
+                                  _lft, validateHomeAddress, home_address),
                               specialDropdown(
                                   'Ciudad de Residencia',
                                   <String>[
@@ -99,12 +118,25 @@ class _RegisterPersonalState extends State<RegisterPersonal> {
                             ],
                           )),
                     ),
-                    specialButton('Siguiente', () {
-                      var supplier = new Supplier();
-                      supplier.savePersonal(birthdate.text, home_address.text,
-                          city.text, phone.text, id_num.text, id_type.text);
-                      validateAndSend(context, _nextRoute, _regPerKey, supplier,
-                          'personal');
+                    specialButton('Siguiente', () async {
+                      supplier = new Supplier();
+                      supplier.setPerson(
+                        avatar.text,
+                        name.text,
+                        first_last_name.text,
+                        second_last_name.text,
+                        birth_date.text,
+                        home_address.text,
+                        city.text,
+                        phone.text,
+                        id_num.text,
+                        id_type.text,
+                      );
+                      bool val =
+                          await validate(_regPerKey, supplier, 'personal');
+                      if (val) {
+                        Navigator.push(context, _nextRoute);
+                      }
                     })
                   ]),
             ),
