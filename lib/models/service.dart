@@ -21,9 +21,9 @@ class Service {
   }
   Map data() {
     return {
-      'service': serviceType,
-      'description': description,
-      'price': price,
+      'service': serviceType ?? '',
+      'description': description ?? '',
+      'price': price ?? '',
     };
   }
 }

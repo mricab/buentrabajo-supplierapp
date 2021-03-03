@@ -34,10 +34,9 @@ class Network {
         body: jsonEncode(data), headers: _headers());
   }
 
-  postMultipartRequest(Map data, files, String apiURL) async {
+  postMultipartRequest(Map data, Map files, String apiURL) async {
     //Endpoint URL
     var fullURL = _URL + apiURL;
-    print(fullURL);
 
     //Multipart request
     var request = http.MultipartRequest(
@@ -49,18 +48,19 @@ class Network {
     request.headers.addAll(_multipartHeaders());
 
     //Add fields to request
-    request.fields.addAll(data);
+    request.fields.addAll(Map<String, String>.from(data));
 
     //Add files to request
-    for (var i = 0; i < files.lengh; i++) {
-      File photo = new File(files[i]);
+    files?.forEach((field, fieldData) {
+      var path = fieldData[0];
+      var type = fieldData[1];
+      File f = new File(fieldData[0]);
       request.files.add(
-        http.MultipartFile('file_name', files[i].readAsBytes().asStream(),
-            files[i].lengthSync(),
-            filename: basename(files[i]),
-            contentType: MediaType('image', 'jpg')),
+        http.MultipartFile(field, f.readAsBytes().asStream(), f.lengthSync(),
+            filename: basename(path),
+            contentType: MediaType(type, extension(path))),
       );
-    }
+    });
 
     //Send request
     var streamedResponse = await request.send();

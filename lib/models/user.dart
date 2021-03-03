@@ -13,8 +13,8 @@ class User {
 
   Map data() {
     return {
-      'email': email,
-      'password': password,
+      'email': email ?? '',
+      'password': password ?? '',
     };
   }
 }

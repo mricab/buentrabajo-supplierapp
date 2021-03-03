@@ -28,10 +28,11 @@ Future<bool> externalValidation(
   // Prepare data
   String apiURL = '/validate';
   Map data = supplier.data();
+  Map files = supplier.files();
   data['validation'] = validationType;
 
   // Send request
-  var response = await networkMgr.postRequest(data, apiURL);
+  var response = await networkMgr.postMultipartRequest(data, files, apiURL);
   var body = json.decode(response.body);
   print(body);
 
@@ -55,9 +56,10 @@ Future<bool> saveNewSupplier(Supplier supplier) async {
   // Prepare data
   String apiURL = '/store';
   Map data = supplier.data();
+  Map files = supplier.files();
 
   // Send request
-  var response = await networkMgr.postRequest(data, apiURL);
+  var response = await networkMgr.postMultipartRequest(data, files, apiURL);
   var body = json.decode(response.body);
   print(body);
 

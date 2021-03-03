@@ -55,11 +55,11 @@ class Supplier extends Person {
 
   Map _supplierData() {
     return {
-      'profession': profession,
-      'experience': experience,
-      'work_address': work_address,
-      'work_latitude': work_latitude,
-      'work_longitude': work_longitude,
+      'profession': profession ?? '',
+      'experience': experience ?? '',
+      'work_address': work_address ?? '',
+      'work_latitude': work_latitude ?? '',
+      'work_longitude': work_longitude ?? '',
     };
   }
 
@@ -87,12 +87,15 @@ class Supplier extends Person {
   }
 
   Map data() {
-    super.data();
     return {
-      ...super.data(),
-      ..._supplierData(),
-      ...user.data(),
+      ...?super.data(),
+      ...?_supplierData(),
+      ...?user.data(),
       ...?_firstServiceData(),
     };
+  }
+
+  Map files() {
+    return super.files();
   }
 }

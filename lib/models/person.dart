@@ -19,16 +19,21 @@ class Person {
 
   Map data() {
     return {
-      'avatar': avatar,
-      'name': name,
-      'first_last_name': first_last_name,
-      'second_last_name': second_last_name,
-      'birth_date': birth_date,
-      'home_address': home_address,
-      'city': city,
-      'phone': phone,
-      'id_num': id_num,
-      'id_type': id_type,
+      'name': name ?? '',
+      'first_last_name': first_last_name ?? '',
+      'second_last_name': second_last_name ?? '',
+      'birth_date': birth_date ?? '',
+      'home_address': home_address ?? '',
+      'city': city ?? '',
+      'phone': phone ?? '',
+      'id_num': id_num ?? '',
+      'id_type': id_type ?? '',
+    };
+  }
+
+  Map files() {
+    return {
+      'avatar': [avatar, 'image'] ?? '',
     };
   }
 }
