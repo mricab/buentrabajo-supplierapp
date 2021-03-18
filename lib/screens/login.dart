@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supplierapp/screens/register_personal.dart';
 import 'package:supplierapp/screens/password_recover.dart';
 import 'package:supplierapp/ui/specialUI.dart';
+import 'package:supplierapp/logic/login_logic.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -9,6 +10,9 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final email = TextEditingController();
+  final password = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final _loginFormKey = GlobalKey<FormState>();
@@ -31,13 +35,19 @@ class _LoginState extends State<Login> {
                         key: _loginFormKey,
                         child: Column(
                           children: [
-                            specialTextFormField('Email', _left, null, null),
-                            specialPasswordFormField(
-                                'Password', _left, null, null),
+                            specialTextFormField(
+                                'Email', _left, validateUserEmail, email),
+                            specialPasswordFormField('Password', _left,
+                                validateUserPassword, password),
                             SizedBox(
                               height: 30,
                             ),
-                            specialButton('ENTRAR', null),
+                            specialButton(
+                              'ENTRAR',
+                              () async {
+                                await login(context, email.text, password.text);
+                              },
+                            ),
                           ],
                         )),
                     SizedBox(

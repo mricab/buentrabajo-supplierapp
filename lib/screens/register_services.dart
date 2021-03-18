@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:supplierapp/logic/register_logic.dart';
+import 'package:supplierapp/screens/home.dart';
+import 'package:supplierapp/screens/register_failure.dart';
 import 'package:supplierapp/ui/specialUI.dart';
-import 'package:supplierapp/screens/register_instructions.dart';
 import 'package:supplierapp/screens/login.dart';
 import 'package:supplierapp/models/supplier.dart';
 import 'package:supplierapp/models/service.dart';
 import 'package:supplierapp/widgets/chipsField.dart';
 import 'package:supplierapp/logic/parameters.dart';
+import 'package:supplierapp/logic/login_logic.dart';
 
 class RegisterServices extends StatefulWidget {
   //Supplier
@@ -122,11 +124,10 @@ class _RegisterServicesState extends State<RegisterServices> {
     //Constants
     final _regSerKey = GlobalKey<FormState>();
     final _lft = TextAlign.left;
-    final _nextRoute = new MaterialPageRoute(
-        builder: (context) => RegisterInstructions(
-              success: registrationSuccess,
-            ));
+    final _nextRoute = new MaterialPageRoute(builder: (context) => Home());
     final _loginRoute = new MaterialPageRoute(builder: (context) => Login());
+    final _failureRoute =
+        new MaterialPageRoute(builder: (context) => RegisterFailure());
 
     //Form Fields Controllers
     final serviceType = TextEditingController();
@@ -195,8 +196,13 @@ class _RegisterServicesState extends State<RegisterServices> {
                           await validate(_regSerKey, supplier, 'service');
                       if (val) {
                         registrationSuccess = await saveNewSupplier(supplier);
-                        Navigator.push(context, _nextRoute);
-                      }
+                        if (registrationSuccess) {
+                          await login(context, supplier.user.email,
+                              supplier.user.password);
+                        } else {
+                          Navigator.push(context, _failureRoute);
+                        }
+                      } else {}
                     })
                   ]),
             ),
