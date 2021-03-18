@@ -10,12 +10,14 @@ final _URL = 'http://127.0.0.1:8000/api';
 Future<void> login(BuildContext context, String email, String password) async {
   //Api address
   Network networkMgr = new Network(_URL);
+  SharedPreferences localStorage = await SharedPreferences.getInstance();
 
   // Prepare data
-  String apiURL = '/login';
+  String apiURL = '/deviceLogin';
   Map data = {
     'email': email,
     'password': password,
+    'device_token': localStorage.getString('device_token'),
   };
 
   // Send request
@@ -28,7 +30,7 @@ Future<void> login(BuildContext context, String email, String password) async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     localStorage.setString('token', json.encode(body['token']));
     localStorage.setString('user', json.encode(body['user']));
-    Navigator.pop(
+    Navigator.push(
       context,
       new MaterialPageRoute(builder: (context) => Home()),
     );

@@ -3,6 +3,7 @@ import 'package:supplierapp/screens/register_personal.dart';
 import 'package:supplierapp/screens/password_recover.dart';
 import 'package:supplierapp/ui/specialUI.dart';
 import 'package:supplierapp/logic/login_logic.dart';
+import 'package:supplierapp/utils/notifications.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -12,6 +13,13 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final email = TextEditingController();
   final password = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    final pushProvider = new PushNotificationProvider();
+    pushProvider.initNotifications();
+  }
 
   @override
   Widget build(BuildContext context) {

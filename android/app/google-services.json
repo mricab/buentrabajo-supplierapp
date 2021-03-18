@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "902532809727",
+    "project_id": "buentrabajo-e0509",
+    "storage_bucket": "buentrabajo-e0509.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:902532809727:android:1d5cc9f7168c77701e5dca",
+        "android_client_info": {
+          "package_name": "buentrabajo.supplierapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "902532809727-tf1kruljen1cgl3v44qt8u7etsdto5vd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKQH1cmFdVsy7mJo3eKc7H12TRLj5inVw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "902532809727-tf1kruljen1cgl3v44qt8u7etsdto5vd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:902532809727:android:8a6fc9329e6e1e7f1e5dca",
+        "android_client_info": {
+          "package_name": "com.example.supplierapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "902532809727-tf1kruljen1cgl3v44qt8u7etsdto5vd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKQH1cmFdVsy7mJo3eKc7H12TRLj5inVw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "902532809727-tf1kruljen1cgl3v44qt8u7etsdto5vd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
