@@ -9,9 +9,10 @@ class ChipsController {
 
 class ChipsField extends FormField<List<String>> {
   ChipsField({
-    List<String> options,
+    List<Map<String, String>> options,
     FormFieldValidator<List<String>> validator,
     ChipsController controller,
+    bool wrapped = false,
   }) : super(
           initialValue: controller.data,
           onSaved: (val) {
@@ -25,15 +26,16 @@ class ChipsField extends FormField<List<String>> {
                   alignment: Alignment.center,
                   child: ChipsChoice<String>.multiple(
                     value: state.value,
+                    alignment: WrapAlignment.center,
                     onChanged: (val) {
                       state.didChange(val);
                       state.save();
                     },
-                    choiceItems: C2Choice.listFrom<String, String>(
+                    choiceItems: C2Choice.listFrom<String, dynamic>(
                       source: options,
-                      value: (i, v) => v.toLowerCase(),
-                      label: (i, v) => v,
-                      tooltip: (i, v) => v,
+                      value: (i, v) => v['id'],
+                      label: (i, v) => v['name'],
+                      tooltip: (i, v) => v['name'],
                     ),
                     choiceStyle: const C2ChoiceStyle(
                       color: Colors.indigo, //Text and border color
@@ -43,14 +45,14 @@ class ChipsField extends FormField<List<String>> {
                       color: Colors.indigo,
                       brightness: Brightness.dark,
                     ),
-                    wrapped: false,
+                    wrapped: wrapped,
                   ),
                 ),
                 state.hasError
                     ? Padding(
                         padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
                         child: Text(
-                          state.errorText ?? 'nothing selected',
+                          state.errorText ?? 'Nothing selected',
                           style: TextStyle(color: Colors.red),
                         ),
                       )

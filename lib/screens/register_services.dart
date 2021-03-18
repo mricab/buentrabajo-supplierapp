@@ -5,8 +5,8 @@ import 'package:supplierapp/screens/register_instructions.dart';
 import 'package:supplierapp/screens/login.dart';
 import 'package:supplierapp/models/supplier.dart';
 import 'package:supplierapp/models/service.dart';
-import 'package:supplierapp/models/schedule.dart';
 import 'package:supplierapp/widgets/chipsField.dart';
+import 'package:supplierapp/logic/parameters.dart';
 
 class RegisterServices extends StatefulWidget {
   //Supplier
@@ -22,6 +22,100 @@ class _RegisterServicesState extends State<RegisterServices> {
   Supplier supplier;
   bool registrationSuccess;
   _RegisterServicesState({@required this.supplier});
+
+  var servicesList;
+  var mondaySchedules;
+  var tuesdaySchedules;
+  var wednesdaySchedules;
+  var thursdaySchedules;
+  var fridaySchedules;
+  var saturdaySchedules;
+  var sundaySchedules;
+
+  @override
+  void initState() {
+    super.initState();
+    var param;
+    param = getParameter('services').then((param) {
+      servicesList = param.map((e) {
+        return {
+          'id': e['id'].toString(),
+          'name': e['name'] as String,
+        };
+      }).toList();
+      setState(() {});
+    });
+    param = getParameter('mondaySchedules').then((param) {
+      mondaySchedules = param.map((e) {
+        return {
+          'id': e['id'].toString(),
+          'name': e['start'].toString() + ' - ' + e['end'].toString(),
+        };
+      }).toList();
+      print(mondaySchedules);
+      setState(() {});
+    });
+    param = getParameter('mondaySchedules').then((param) {
+      tuesdaySchedules = param.map((e) {
+        return {
+          'id': e['id'].toString(),
+          'name': e['start'].toString() + ' - ' + e['end'].toString(),
+        };
+      }).toList();
+      print(tuesdaySchedules);
+      setState(() {});
+    });
+    param = getParameter('mondaySchedules').then((param) {
+      wednesdaySchedules = param.map((e) {
+        return {
+          'id': e['id'].toString(),
+          'name': e['start'].toString() + ' - ' + e['end'].toString(),
+        };
+      }).toList();
+      print(wednesdaySchedules);
+      setState(() {});
+    });
+    param = getParameter('mondaySchedules').then((param) {
+      thursdaySchedules = param.map((e) {
+        return {
+          'id': e['id'].toString(),
+          'name': e['start'].toString() + ' - ' + e['end'].toString(),
+        };
+      }).toList();
+      print(thursdaySchedules);
+      setState(() {});
+    });
+    param = getParameter('mondaySchedules').then((param) {
+      fridaySchedules = param.map((e) {
+        return {
+          'id': e['id'].toString(),
+          'name': e['start'].toString() + ' - ' + e['end'].toString(),
+        };
+      }).toList();
+      print(fridaySchedules);
+      setState(() {});
+    });
+    param = getParameter('mondaySchedules').then((param) {
+      saturdaySchedules = param.map((e) {
+        return {
+          'id': e['id'].toString(),
+          'name': e['start'].toString() + ' - ' + e['end'].toString(),
+        };
+      }).toList();
+      print(saturdaySchedules);
+      setState(() {});
+    });
+    param = getParameter('mondaySchedules').then((param) {
+      sundaySchedules = param.map((e) {
+        return {
+          'id': e['id'].toString(),
+          'name': e['start'].toString() + ' - ' + e['end'].toString(),
+        };
+      }).toList();
+      print(sundaySchedules);
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +154,7 @@ class _RegisterServicesState extends State<RegisterServices> {
                     SizedBox(
                       height: 15,
                     ),
-                    specialSubtitle('Paso 4: Primer Servicio'),
+                    specialSubtitle('Paso 4: Servicios'),
                     SizedBox(
                       height: 30,
                     ),
@@ -69,13 +163,9 @@ class _RegisterServicesState extends State<RegisterServices> {
                           key: _regSerKey,
                           child: ListView(
                             children: [
-                              specialDropdown(
+                              specialDropdown2(
                                   'Tipo de Servicio',
-                                  <String>[
-                                    'Mantenimiento',
-                                    'Instalación',
-                                    'Asesoramiento',
-                                  ],
+                                  servicesList ?? <Map<String, String>>[],
                                   validateServiceType,
                                   serviceType),
                               specialMultiLineTextFormField('Descripción', _lft,
@@ -83,7 +173,17 @@ class _RegisterServicesState extends State<RegisterServices> {
                               specialAmountFormField(
                                   'Precio', _lft, validatePrice, price, 'Bs.'),
                               specialScheduleField(
-                                  'Horario', context, null, schedules),
+                                  'Horario',
+                                  context,
+                                  mondaySchedules ?? <Map<String, String>>[],
+                                  tuesdaySchedules ?? <Map<String, String>>[],
+                                  wednesdaySchedules ?? <Map<String, String>>[],
+                                  thursdaySchedules ?? <Map<String, String>>[],
+                                  fridaySchedules ?? <Map<String, String>>[],
+                                  saturdaySchedules ?? <Map<String, String>>[],
+                                  sundaySchedules ?? <Map<String, String>>[],
+                                  null,
+                                  schedules),
                             ],
                           )),
                     ),

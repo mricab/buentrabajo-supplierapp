@@ -4,6 +4,7 @@ import 'package:supplierapp/ui/specialUI.dart';
 import 'package:supplierapp/screens/register_account.dart';
 import 'package:supplierapp/screens/login.dart';
 import 'package:supplierapp/models/supplier.dart';
+import 'package:supplierapp/logic/parameters.dart';
 
 class RegisterPersonal extends StatefulWidget {
   @override
@@ -11,6 +12,29 @@ class RegisterPersonal extends StatefulWidget {
 }
 
 class _RegisterPersonalState extends State<RegisterPersonal> {
+  var cities;
+  var id_types;
+
+  @override
+  void initState() {
+    super.initState();
+    var param;
+    param = getParameter('cities').then((param) {
+      //cities = param.map((c) => c as Map<String, String>)?.toList();
+      cities = param.map((e) {
+        return {
+          'id': e['id'].toString(),
+          'name': e['name'] as String,
+        };
+      }).toList();
+      setState(() {});
+    });
+    param = getParameter('id_types').then((param) {
+      id_types = param.cast<String>();
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // Constructur
@@ -90,13 +114,9 @@ class _RegisterPersonalState extends State<RegisterPersonal> {
                                   birth_date),
                               specialTextFormField('Dirección de Domicilio',
                                   _lft, validateHomeAddress, home_address),
-                              specialDropdown(
+                              specialDropdown2(
                                   'Ciudad de Residencia',
-                                  <String>[
-                                    'La Paz',
-                                    'Cochabamba',
-                                    'Santa Cruz',
-                                  ],
+                                  cities ?? <Map<String, String>>[],
                                   validateCity,
                                   city),
                               specialPhoneFormField(
@@ -105,11 +125,7 @@ class _RegisterPersonalState extends State<RegisterPersonal> {
                                   validateIdNum, id_num),
                               specialDropdown(
                                   'Tipo Doc. de Identidad',
-                                  <String>[
-                                    'Carnet',
-                                    'Pasaporte',
-                                    'Tarj. Residencia'
-                                  ],
+                                  id_types ?? <String>[''],
                                   validateIdType,
                                   id_type),
                               SizedBox(

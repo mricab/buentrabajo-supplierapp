@@ -5,14 +5,16 @@ import 'package:supplierapp/models/service.dart';
 
 class Supplier extends Person {
   //Supplier data
-  String profession;
+  List<String> professions_ids;
   String experience;
   String work_address;
   String work_latitude;
   String work_longitude;
+
   //Supplier objects
   List<Service> services = List();
 
+  //Constructor
   Supplier();
 
   void setPerson(
@@ -40,13 +42,13 @@ class Supplier extends Person {
   }
 
   void setSupplier(
-    String profession,
+    List<String> professions,
     String experience,
     String work_address,
     String work_latitude,
     String work_longitude,
   ) {
-    this.profession = profession;
+    this.professions_ids = professions;
     this.experience = experience;
     this.work_address = work_address;
     this.work_latitude = work_latitude;
@@ -55,7 +57,11 @@ class Supplier extends Person {
 
   Map _supplierData() {
     return {
-      'profession': profession ?? '',
+      'professions': professions_ids
+              .toString()
+              .replaceAll('[', '{')
+              .replaceAll(']', '}') ??
+          '',
       'experience': experience ?? '',
       'work_address': work_address ?? '',
       'work_latitude': work_latitude ?? '',
@@ -83,6 +89,7 @@ class Supplier extends Person {
   }
 
   void addService(Service service) {
+    services = List();
     services.add(service);
   }
 

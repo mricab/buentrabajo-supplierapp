@@ -264,6 +264,31 @@ DropdownButtonFormField specialDropdown(String hint, List<String> items,
   );
 }
 
+DropdownButtonFormField specialDropdown2(
+    String hint,
+    List<Map<String, String>> items,
+    String valMethod(String value),
+    TextEditingController fieldController) {
+  return DropdownButtonFormField(
+    icon: Icon(null),
+    validator: valMethod,
+    decoration: textFormFieldsDecoration(hint, Icons.keyboard_arrow_down, null),
+    onChanged: (value) {
+      fieldController.text = value;
+    },
+    dropdownColor: Color(0xff60e7ff),
+    items: items.map<DropdownMenuItem<String>>((Map item) {
+      return DropdownMenuItem<String>(
+        value: item['id'],
+        child: Text(
+          item['name'],
+          style: TextStyle(color: Colors.white),
+        ),
+      );
+    }).toList(),
+  );
+}
+
 Widget specialAvatarField(BuildContext context, String valMethod(String value),
     TextEditingController fieldController) {
   return AvatarFormField(
@@ -306,9 +331,30 @@ Widget specialLocationField(
   );
 }
 
+Widget specialChipsField(
+  List<Map<String, String>> options,
+  ChipsController controller,
+  String valMethod(String value),
+  bool wrap,
+) {
+  return ChipsField(
+    options: options,
+    controller: controller,
+    //validator: valMethod,
+    wrapped: wrap,
+  );
+}
+
 Widget specialScheduleField(
   String label,
   BuildContext context,
+  List mondayList,
+  List tuesdayList,
+  List wednesdayList,
+  List thursdayList,
+  List fridayList,
+  List saturdayList,
+  List sundayList,
   String valMethod(String value),
   ChipsController scheduleController,
 ) {
@@ -357,7 +403,7 @@ Widget specialScheduleField(
                           ),
                         ),
                         ChipsField(
-                          options: ['8.30-12.30', '14.30-18.30', '19.00-23.00'],
+                          options: mondayList,
                           controller: mondayController,
                         ),
                         Center(
@@ -368,7 +414,7 @@ Widget specialScheduleField(
                           ),
                         ),
                         ChipsField(
-                          options: ['8.30-12.30', '14.30-18.30', '19.00-23.00'],
+                          options: tuesdayList,
                           controller: tuesdayController,
                         ),
                         Center(
@@ -379,7 +425,7 @@ Widget specialScheduleField(
                           ),
                         ),
                         ChipsField(
-                          options: ['8.30-12.30', '14.30-18.30', '19.00-23.00'],
+                          options: wednesdayList,
                           controller: wednesdayController,
                         ),
                         Center(
@@ -390,7 +436,7 @@ Widget specialScheduleField(
                           ),
                         ),
                         ChipsField(
-                          options: ['8.30-12.30', '14.30-18.30', '19.00-23.00'],
+                          options: thursdayList,
                           controller: thursdayController,
                         ),
                         Center(
@@ -401,7 +447,7 @@ Widget specialScheduleField(
                           ),
                         ),
                         ChipsField(
-                          options: ['8.30-12.30', '14.30-18.30', '19.00-23.00'],
+                          options: fridayList,
                           controller: fridayController,
                         ),
                         Center(
@@ -412,7 +458,7 @@ Widget specialScheduleField(
                           ),
                         ),
                         ChipsField(
-                          options: ['8.30-12.30'],
+                          options: saturdayList,
                           controller: saturdayController,
                         ),
                         Center(
@@ -423,7 +469,7 @@ Widget specialScheduleField(
                           ),
                         ),
                         ChipsField(
-                          options: ['8.30-12.30'],
+                          options: sundayList,
                           controller: sundayController,
                         ),
                       ],

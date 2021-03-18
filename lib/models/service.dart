@@ -2,7 +2,7 @@ import 'package:supplierapp/models/schedule.dart';
 
 class Service {
   //Service data
-  String serviceType;
+  String serviceType_id;
   String description;
   String price;
   //Service schedule
@@ -14,16 +14,16 @@ class Service {
     String price,
     //List<Schedule> schedules,
   ) {
-    this.serviceType = serviceType;
+    this.serviceType_id = serviceType;
     this.description = description;
     this.price = price;
     //this.schedules = schedules;
   }
   Map data() {
     return {
-      'service': serviceType ?? '',
-      'description': description ?? '',
-      'price': price ?? '',
+      'service': serviceType_id.toString() ?? '',
+      'description': description.toString() ?? '',
+      'price': price.toString() ?? '',
     };
   }
 }

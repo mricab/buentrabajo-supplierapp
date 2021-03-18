@@ -28,6 +28,7 @@ Future<bool> externalValidation(
   // Prepare data
   String apiURL = '/validate';
   Map data = supplier.data();
+  print(data);
   Map files = supplier.files();
   data['validation'] = validationType;
 

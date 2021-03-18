@@ -77,9 +77,10 @@ class _RegisterAccountState extends State<RegisterAccount> {
                     specialButton('Siguiente', () async {
                       supplier.user.setUser(email.text, password.text);
                       bool val = await validate(_regAccKey, supplier, 'user');
-                      if (val) {
-                        Navigator.push(context, _nextRoute);
-                      }
+                      // if (val) {
+                      //   Navigator.push(context, _nextRoute);
+                      // }
+                      Navigator.push(context, _nextRoute);
                     })
                   ]),
             ),

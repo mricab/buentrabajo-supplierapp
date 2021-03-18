@@ -4,7 +4,8 @@ import 'package:supplierapp/ui/specialUI.dart';
 import 'package:supplierapp/screens/register_services.dart';
 import 'package:supplierapp/screens/login.dart';
 import 'package:supplierapp/models/supplier.dart';
-import 'package:supplierapp/widgets/locationPickerField.dart';
+import 'package:supplierapp/logic/parameters.dart';
+import 'package:supplierapp/widgets/chipsField.dart';
 
 class RegisterProfessional extends StatefulWidget {
   //Supplier
@@ -19,6 +20,24 @@ class RegisterProfessional extends StatefulWidget {
 class _RegisterProfessionalState extends State<RegisterProfessional> {
   Supplier supplier;
   _RegisterProfessionalState({@required this.supplier});
+
+  var professionsList;
+
+  @override
+  void initState() {
+    super.initState();
+    var param;
+    param = getParameter('professions').then((param) {
+      //cities = param.map((c) => c as Map<String, String>)?.toList();
+      professionsList = param.map((e) {
+        return {
+          'id': e['id'].toString(),
+          'name': e['name'] as String,
+        };
+      }).toList();
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +56,7 @@ class _RegisterProfessionalState extends State<RegisterProfessional> {
     final work_address = TextEditingController();
     final work_latitude = TextEditingController();
     final work_longitude = TextEditingController();
+    final ChipsController professions = new ChipsController(List());
 
     return Container(
         decoration: specialBackground(),
@@ -71,19 +91,14 @@ class _RegisterProfessionalState extends State<RegisterProfessional> {
                                   work_latitude, work_longitude),
                               specialTextFormField('Dirección laboral', _lft,
                                   validateWorkAddress, work_address),
-                              specialDropdown(
-                                  'Profesión',
-                                  <String>[
-                                    'Carpintero',
-                                    'Cerrajero',
-                                    'Albañil',
-                                    'Plomero',
-                                    'Técnico de Aire Acond.',
-                                  ],
-                                  validateProfession,
-                                  profession),
                               specialMultiLineTextFormField('Experiencia', _lft,
                                   4, 5, validateExperience, experience),
+                              ChipsField(
+                                options:
+                                    professionsList ?? <Map<String, String>>[],
+                                controller: professions,
+                                wrapped: true,
+                              ),
                               SizedBox(
                                 height: 30,
                               ),
@@ -92,16 +107,18 @@ class _RegisterProfessionalState extends State<RegisterProfessional> {
                     ),
                     specialButton('Siguiente', () async {
                       supplier.setSupplier(
-                          profession.text,
+                          professions.data,
                           experience.text,
                           work_address.text,
                           work_latitude.text,
                           work_longitude.text);
                       bool val =
                           await validate(_regProKey, supplier, 'professional');
+                      print(val);
                       if (val) {
                         Navigator.push(context, _nextRoute);
                       }
+                      //Navigator.push(context, _nextRoute);
                     })
                   ]),
             ),
